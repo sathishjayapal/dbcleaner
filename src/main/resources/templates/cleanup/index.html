@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{cleanup.index.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <h1 class="mb-4">[[#{cleanup.index.headline}]]</h1>
+            <p class="mb-4">[[#{cleanup.index.text}]]</p>
+
+            <form method="post" th:action="@{/cleanup/run}" class="mb-5">
+                <button type="submit" class="btn btn-danger"
+                        onclick="return confirm([[#{delete.confirm}]])">
+                    [[#{cleanup.run.button}]]
+                </button>
+            </form>
+
+            <h4 class="mb-3">[[#{cleanup.audit.headline}]]</h4>
+            <div th:if="${auditEntries.empty}" class="alert alert-info">[[#{cleanup.audit.empty}]]</div>
+            <div th:unless="${auditEntries.empty}">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>[[#{jobcleaner.runsServiceName.label}]]</th>
+                            <th>[[#{cleanup.audit.sourceTable}]]</th>
+                            <th>[[#{cleanup.audit.sourceRecordId}]]</th>
+                            <th>[[#{cleanup.audit.recordSummary}]]</th>
+                            <th>[[#{cleanup.audit.deletedAt}]]</th>
+                            <th>[[#{cleanup.audit.success}]]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="entry : ${auditEntries}">
+                            <td th:text="${entry.runsServiceName}"></td>
+                            <td th:text="${entry.sourceTable}"></td>
+                            <td th:text="${entry.sourceRecordId}"></td>
+                            <td th:text="${entry.recordSummary}" class="text-truncate" style="max-width:300px"></td>
+                            <td th:text="${entry.deletedAt}"></td>
+                            <td>
+                                <span th:if="${entry.jobStatus}" class="badge bg-success">Yes</span>
+                                <span th:unless="${entry.jobStatus}" class="badge bg-danger">No</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div th:replace="~{fragments/utils::pagination()}" />
+            </div>
+        </div>
+    </body>
+</html>

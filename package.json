@@ -1,0 +1,33 @@
+{
+  "name": "dbcleaner-frontend",
+  "author": "Bootify.io",
+  "scripts": {
+    "devserver": "webpack serve --open --mode development",
+    "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "@popperjs/core": "2.11.8",
+    "bootstrap": "5.3.8",
+    "htmx.org": "2.0.10"
+  },
+  "devDependencies": {
+    "@babel/core": "7.29.0",
+    "autoprefixer": "10.5.0",
+    "css-loader": "7.1.4",
+    "css-minimizer-webpack-plugin": "8.0.0",
+    "mini-css-extract-plugin": "2.10.2",
+    "postcss-loader": "8.2.1",
+    "postcss-preset-env": "11.2.1",
+    "sass": "1.77.6",
+    "sass-loader": "14.2.1",
+    "style-loader": "4.0.0",
+    "ts-loader": "9.5.7",
+    "tsconfig-paths-webpack-plugin": "4.2.0",
+    "typescript": "5.9.3",
+    "warnings-to-errors-webpack-plugin": "2.3.0",
+    "webpack": "5.106.2",
+    "webpack-cli": "7.0.2",
+    "webpack-dev-server": "5.2.3"
+  },
+  "private": true
+}

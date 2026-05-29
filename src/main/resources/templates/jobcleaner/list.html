@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{jobcleaner.list.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{jobcleaner.list.headline}]]</h1>
+                <div>
+                    <a th:href="@{/jobcleaners/add}" class="btn btn-primary ms-2">[[#{jobcleaner.list.createNew}]]</a>
+                </div>
+            </div>
+            <div th:if="${!jobcleaners.empty || filter != null}" class="row">
+                <div th:replace="~{fragments/utils::searchFilter(object='jobcleaner')}" />
+                <div th:replace="~{fragments/utils::sorting(object='jobcleaner', sortOptions=${ {'id,ASC', 'runsServiceName,ASC', 'jobStatus,ASC'} }, columnClass='offset-lg-4')}" />
+            </div>
+            <div th:if="${jobcleaners.empty}">[[#{jobcleaner.list.empty}]]</div>
+            <div th:if="${!jobcleaners.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">[[#{jobcleaner.id.label}]]</th>
+                            <th scope="col">[[#{jobcleaner.runsServiceName.label}]]</th>
+                            <th scope="col">[[#{jobcleaner.jobStatus.label}]]</th>
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="jobcleaner : ${jobcleaners}">
+                            <td>[[${jobcleaner.id}]]</td>
+                            <td>[[${jobcleaner.runsServiceName}]]</td>
+                            <td>[[${jobcleaner.jobStatus}]]</td>
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/jobcleaners/edit/{id}(id=${jobcleaner.id})}" class="btn btn-sm btn-secondary">[[#{jobcleaner.list.edit}]]</a>
+                                    <form th:action="@{/jobcleaners/delete/{id}(id=${jobcleaner.id})}"
+                                            th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-secondary">[[#{jobcleaner.list.delete}]]</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:replace="~{fragments/utils::pagination()}" />
+        </div>
+    </body>
+</html>
