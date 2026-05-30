@@ -1,6 +1,9 @@
 package me.sathish.dbcleaner.base.cleanup;
 
-public record CleanupResult(int fileImportRecordsDeleted, int domainEventsDeleted, int analysisLogsDeleted) {
+import java.io.Serializable;
+
+public record CleanupResult(int fileImportRecordsDeleted, int domainEventsDeleted,
+                            int analysisLogsDeleted) implements Serializable {
 
     public int total() {
         return fileImportRecordsDeleted + domainEventsDeleted + analysisLogsDeleted;

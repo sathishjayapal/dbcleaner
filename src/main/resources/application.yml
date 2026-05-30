@@ -1,8 +1,9 @@
+
 spring:
   datasource:
-    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/dbcleaner}
-    username: ${JDBC_DATABASE_USERNAME:postgres}
-    password: ${JDBC_DATABASE_PASSWORD:<<YOUR_PASSWORD>>}
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
     hikari:
       connection-timeout: 30000
       maximum-pool-size: 10
@@ -22,22 +23,23 @@ spring:
   docker:
     compose:
       lifecycle-management: start-only
+      enabled: false
   session:
     jdbc.initialize-schema: always
 app:
   datasources:
     runs-app:
-      url: ${RUNS_APP_DB_URL:jdbc:postgresql://localhost:5443/runsapp_db}
-      username: ${RUNS_APP_DB_USERNAME:postgres}
-      password: ${RUNS_APP_DB_PASSWORD:}
+      url: ${RUNS_APP_DB_URL}
+      username: ${RUNS_APP_DB_USERNAME}
+      password: ${RUNS_APP_DB_PASSWORD}
     eventstracker:
-      url: ${EVENTS_TRACKER_DB_URL:jdbc:postgresql://localhost:6433/event-service}
-      username: ${EVENTS_TRACKER_DB_USERNAME:postgres}
-      password: ${EVENTS_TRACKER_DB_PASSWORD:}
+      url: ${EVENTS_TRACKER_DB_URL}
+      username: ${EVENTS_TRACKER_DB_USERNAME}
+      password: ${EVENTS_TRACKER_DB_PASSWORD}
     runs-ai:
-      url: ${RUNS_AI_DB_URL:jdbc:postgresql://localhost:5444/runs-ai-analyzer}
-      username: ${RUNS_AI_DB_USERNAME:postgres}
-      password: ${RUNS_AI_DB_PASSWORD:}
+      url: ${RUNS_AI_DB_URL}
+      username: ${RUNS_AI_DB_USERNAME}
+      password: ${RUNS_AI_DB_PASSWORD}
 
 management:
   endpoints:
@@ -47,3 +49,5 @@ management:
   endpoint:
     health:
       show-details: always
+server:
+  port: 8085
