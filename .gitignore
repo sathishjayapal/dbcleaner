@@ -4,11 +4,11 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 application-local.yml
+.env
 *.log
 .DS_Store
 node/
 node_modules/
-
 ## IntelliJ IDEA
 .idea
 *.iws
