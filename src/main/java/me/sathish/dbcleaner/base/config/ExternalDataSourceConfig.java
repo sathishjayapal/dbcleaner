@@ -48,6 +48,8 @@ public class ExternalDataSourceConfig {
         ds.setPoolName(poolName);
         ds.setMaximumPoolSize(3);
         ds.setConnectionTimeout(30000);
+        ds.setMaxLifetime(300000);
+        ds.setKeepaliveTime(120000);
         return ds;
     }
 
