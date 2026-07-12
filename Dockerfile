@@ -1,22 +1,35 @@
-# Build stage
+# syntax=docker/dockerfile:1
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Build stage — compiles the Spring Boot app AND the webpack frontend.
+# The frontend-maven-plugin (bound to the Maven build) runs `npm install` and
+# `npm run build`, so package.json / lockfile / webpack / tsconfig MUST be
+# present before `mvn package` or the frontend build fails.
+# ─────────────────────────────────────────────────────────────────────────────
 FROM maven:3.9-eclipse-temurin-25-alpine AS build
 WORKDIR /app
 
 # Copy pom.xml first for dependency caching
 COPY pom.xml .
 
-# Download dependencies (cached layer)
+# Download Maven dependencies (cached layer)
 RUN mvn dependency:go-offline -B
 
-# Copy source code
-COPY src src
+# Frontend build inputs — required by frontend-maven-plugin during `mvn package`
+COPY package.json package-lock.json ./
+COPY tsconfig.json webpack.config.js ./
+
+# Maven wrapper + source
 COPY mvnw .
 COPY .mvn .mvn
+COPY src src
 
-# Build the application, skipping tests
+# Build the application (frontend is compiled and bundled into the jar)
 RUN mvn package -DskipTests -B
 
+# ─────────────────────────────────────────────────────────────────────────────
 # Runtime stage
+# ─────────────────────────────────────────────────────────────────────────────
 FROM eclipse-temurin:25-jre-alpine
 WORKDIR /app
 
@@ -25,18 +38,18 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 # Copy the built jar
 COPY --from=build /app/target/*.jar app.jar
-
-# Set ownership
 RUN chown -R appuser:appgroup /app
 USER appuser
 
-# Expose port
-EXPOSE 8080
+# Default runtime profile (override in Portainer stack / docker-compose env)
+ENV SPRING_PROFILES_ACTIVE=docker
+ENV SERVER_PORT=8085
 
-# Health check
+# App listens on 8085 (matches application.yml server.port)
+EXPOSE 8085
+
+# Health check hits the actuator health endpoint on the same port
 HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
-  CMD wget -qO- http://localhost:8080/actuator/health || exit 1
+  CMD wget -qO- "http://localhost:${SERVER_PORT}/actuator/health" || exit 1
 
-# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
-

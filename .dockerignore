@@ -1,0 +1,13 @@
+target/
+node/
+node_modules/
+.git/
+.github/
+.idea/
+*.iml
+.env
+.env.*
+application-local.yml
+*.log
+.DS_Store
+README.md

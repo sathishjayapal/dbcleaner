@@ -2,8 +2,18 @@ services:
   postgres:
     image: postgres:18.3
     environment:
-    - POSTGRES_DB=dbcleaner
-    - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=P4ssword!
+      - POSTGRES_DB=${DBCLEANER_DB_NAME:-dbcleaner}
+      - POSTGRES_USER=${JDBC_DATABASE_USERNAME:?set in .env}
+      - POSTGRES_PASSWORD=${JDBC_DATABASE_PASSWORD:?set in .env}
     ports:
-    - 5433:5432
+      - 5433:5432
+    volumes:
+      - dbcleaner_pg_data:/var/lib/postgresql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${JDBC_DATABASE_USERNAME} -d ${DBCLEANER_DB_NAME:-dbcleaner}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  dbcleaner_pg_data:

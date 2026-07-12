@@ -6,13 +6,58 @@
     </head>
     <body>
         <div layout:fragment="content">
-            <h1 class="mb-4">[[#{home.index.headline}]]</h1>
-            <p class="mb-5">[(#{home.index.text})]</p>
-            <div class="col-md-4 mb-5">
-                <h4 class="mb-3">[[#{home.index.exploreEntities}]]</h4>
-                <div class="list-group">
-                    <a th:href="@{/jobcleaners}" class="list-group-item list-group-item-action">[[#{jobcleaner.list.headline}]]</a>
-                    <a th:href="@{/cleanup}" class="list-group-item list-group-item-action">[[#{cleanup.index.headline}]]</a>
+            <div style="max-width: 820px;">
+                <div class="d-flex align-items-center mb-2">
+                    <img class="me-3" height="48" th:alt="#{app.title}" th:src="@{/images/logo.png}" width="48"/>
+                    <h1 class="mb-0">[[#{home.index.headline}]]</h1>
+                </div>
+                <p class="lead text-body-secondary mb-4">[[#{home.index.tagline}]]</p>
+                <p class="mb-4">[(#{home.index.text})]</p>
+
+                <a class="btn btn-primary btn-lg mb-5" th:href="@{/cleanup}">[[#{home.index.cta}]]</a>
+
+                <div class="mb-5">
+                    <h4 class="mb-2">[[#{home.index.projects.headline}]]</h4>
+                    <p class="text-body-secondary mb-3">[[#{home.index.projects.subtext}]]</p>
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle">
+                            <thead>
+                            <tr>
+                                <th>[[#{home.index.projects.col.service}]]</th>
+                                <th>[[#{home.index.projects.col.database}]]</th>
+                                <th>[[#{home.index.projects.col.table}]]</th>
+                                <th class="text-end">[[#{home.index.projects.col.pending}]]</th>
+                                <th>[[#{home.index.projects.col.lastCleaned}]]</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="stat : ${projectStats}">
+                                <td><span class="badge bg-primary">[[${stat.service}]]</span></td>
+                                <td><span class="font-monospace small text-body-secondary">[[${stat.database}]]</span>
+                                </td>
+                                <td><span class="font-monospace small text-body-secondary">[[${stat.table}]]</span></td>
+                                <td class="text-end">
+                                    <span th:if="${stat.available}" th:text="${stat.pendingCount}"></span>
+                                    <span class="badge bg-warning text-dark" th:title="#{home.index.projects.unavailable.title}"
+                                          th:unless="${stat.available}">[[#{home.index.projects.unavailable}]]</span>
+                                </td>
+                                <td>
+                                        <span th:if="${stat.lastCleaned}"
+                                              th:text="${#temporals.format(stat.lastCleaned, 'yyyy-MM-dd HH:mm')}"></span>
+                                    <span class="text-body-secondary" th:unless="${stat.lastCleaned}">[[#{home.index.projects.never}]]</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="mb-3">[[#{home.index.more.headline}]]</h4>
+                    <div class="list-group">
+                        <a class="list-group-item list-group-item-action" th:href="@{/cleanup}">[[#{home.index.more.cleanup}]]</a>
+                        <a class="list-group-item list-group-item-action" th:href="@{/jobcleaners}">[[#{home.index.more.history}]]</a>
+                    </div>
                 </div>
             </div>
         </div>

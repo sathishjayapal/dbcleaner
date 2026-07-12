@@ -1,5 +1,16 @@
-
 spring:
+  application:
+    name: dbcleaner
+  cloud:
+    config:
+      # Config-server is only used under the 'docker' profile (see
+      # application-docker.yml, which sets spring.config.import=configserver:).
+      # spring-cloud-starter-config otherwise fails local/IDE startup with
+      # "No spring.config.import property has been defined". Turning off just
+      # the startup check lets local runs skip config-server; it does NOT
+      # contact any server unless an import is present.
+      import-check:
+        enabled: false
   datasource:
     url: ${JDBC_DATABASE_URL}
     username: ${JDBC_DATABASE_USERNAME}
