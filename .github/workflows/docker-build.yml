@@ -28,7 +28,10 @@ permissions:
   contents: read
 
 env:
-  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/dbcleaner
+  # Docker Hub namespace is public (not a secret). Hardcoding it means the image
+  # tag can never resolve to "/dbcleaner" if a secret is missing/not passed
+  # (e.g. on pull_request events). Only the token below stays a secret.
+  IMAGE_NAME: travelhelper0h/dbcleaner
 
 jobs:
   publish:
@@ -45,7 +48,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: travelhelper0h
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
