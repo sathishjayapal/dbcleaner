@@ -26,8 +26,8 @@
     "typescript": "5.9.3",
     "warnings-to-errors-webpack-plugin": "2.3.0",
     "webpack": "5.106.2",
-    "webpack-cli": "7.0.2",
-    "webpack-dev-server": "5.2.3"
+    "webpack-cli": "7.2.1",
+    "webpack-dev-server": "6.0.0"
   },
   "private": true
 }
