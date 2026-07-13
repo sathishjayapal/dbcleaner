@@ -6,6 +6,8 @@
 # Activated via SPRING_PROFILES_ACTIVE=docker (set in the Dockerfile / stack).
 # ─────────────────────────────────────────────────────────────────────────────
 spring:
+  application:
+    name: dbcleaner
   # ── Spring Cloud Config ─────────────────────────────────────────────────
   # Pull centralized config (dbcleaner.yml / dbcleaner-docker.yml) from the
   # config-server. Boot 4.0 uses spring.config.import (no bootstrap.yml).

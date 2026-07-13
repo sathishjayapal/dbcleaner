@@ -1,13 +1,14 @@
 package me.sathish.dbcleaner.base.cleanup;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import me.sathish.dbcleaner.base.JobcleanerService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -31,9 +32,10 @@ public class CleanupService {
 
     @Transactional
     public CleanupResult cleanAll() {
-        int fileImportCount = cleanFileImportRecords();
+        // TEMP: runs-app and runs-ai disabled while testing eventstracker cleanup in isolation
+        int fileImportCount = 0; // cleanFileImportRecords();
         int domainEventCount = cleanDomainEvents();
-        int analysisLogCount = cleanAnalysisProcessingLogs();
+        int analysisLogCount = 0; // cleanAnalysisProcessingLogs();
         return new CleanupResult(fileImportCount, domainEventCount, analysisLogCount);
     }
 

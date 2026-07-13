@@ -34,10 +34,9 @@ public class HomeStatsService {
     }
 
     public List<ProjectStat> projectStats() {
+        // TEMP: runs-app and runs-ai disabled while testing eventstracker cleanup in isolation
         return List.of(
-                buildStat(runsAppJdbc, "runs-app", "runsapp_db", "file_import_record"),
-                buildStat(eventsTrackerJdbc, "eventstracker", "eventstracker", "domain_event"),
-                buildStat(runsAiJdbc, "runs-ai-analyzer", "runs_ai_analyzer_db", "analysis_processing_log"));
+                buildStat(eventsTrackerJdbc, "eventstracker", "eventstracker", "domain_event"));
     }
 
     private ProjectStat buildStat(final JdbcTemplate jdbc, final String service,
