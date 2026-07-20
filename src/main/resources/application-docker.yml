@@ -2,7 +2,7 @@
 # Profile: docker  (production / VirtualBox-Portainer runtime)
 #
 # All connection details come from environment variables injected by the
-# Portainer stack (see virtualbox-stack/docker-compose.yml). No secrets here.
+# Portainer stack (see consolidated-postgres/docker-compose-vm.yml). No secrets here.
 # Activated via SPRING_PROFILES_ACTIVE=docker (set in the Dockerfile / stack).
 # ─────────────────────────────────────────────────────────────────────────────
 spring:
