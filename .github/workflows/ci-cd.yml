@@ -18,7 +18,7 @@ on:
       - 'package-lock.json'
       - 'tsconfig*.json'
       - 'webpack.config.js'
-      - '.github/workflows/docker-build.yml'
+      - '.github/workflows/ci-cd.yml'
   pull_request:
     branches: [ master ]
     types: [ opened, synchronize, reopened ]
@@ -56,8 +56,9 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          # The VirtualBox VM is linux/amd64; build for it explicitly.
-          platforms: linux/amd64
+          # Multi-arch: the VirtualBox VM is linux/amd64, but this image is also
+          # deployed to arm64 Portainer hosts (Apple Silicon).
+          platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ env.IMAGE_NAME }}:latest
