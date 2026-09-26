@@ -1,6 +1,10 @@
+# Standalone DB compose for dbcleaner — values match the `dbcleaner-db` service that
+# consolidated-postgres/scripts/vm/vm-db-up.sh generates (see scripts/lib/project-config.sh).
+#   docker compose up -d
 services:
   postgres:
-    image: postgres:18.3
+    container_name: dbcleaner-db
+    image: postgres:16.15
     environment:
       - POSTGRES_DB=${DBCLEANER_DB_NAME:-dbcleaner}
       - POSTGRES_USER=${JDBC_DATABASE_USERNAME:?set in .env}
@@ -8,7 +12,7 @@ services:
     ports:
       - 5433:5432
     volumes:
-      - dbcleaner_pg_data:/var/lib/postgresql
+      - dbcleaner_pg_data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${JDBC_DATABASE_USERNAME} -d ${DBCLEANER_DB_NAME:-dbcleaner}" ]
       interval: 10s
